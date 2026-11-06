@@ -4,16 +4,16 @@
   "baseUrl": "https://kien-thuc-quoc-phong-media.thaimtapro.workers.dev",
   "images": [
     {
-      "id": "ve-tinh-quan-su-20261106",
-      "path": "/cover_ve_tinh_quan_su.png",
-      "title": "Liên lạc vệ tinh quân sự",
+      "id": "trien-lam-quoc-phong-2026",
+      "path": "/cover_trien_lam_quoc_phong_2026.png",
+      "title": "Triển lãm Quốc phòng Quốc tế Việt Nam 2026",
       "type": "ai-illustration",
       "credit": "Ảnh minh họa AI"
     },
     {
-      "id": "trien-lam-quoc-phong-2026",
-      "path": "/cover_trien_lam_quoc_phong_2026.png",
-      "title": "Triển lãm Quốc phòng Quốc tế Việt Nam 2026",
+      "id": "ve-tinh-quan-su-20261106",
+      "path": "/cover_ve_tinh_quan_su.png",
+      "title": "Liên lạc vệ tinh quân sự",
       "type": "ai-illustration",
       "credit": "Ảnh minh họa AI"
     }
