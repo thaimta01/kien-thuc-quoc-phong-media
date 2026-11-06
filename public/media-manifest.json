@@ -4,6 +4,13 @@
   "baseUrl": "https://kien-thuc-quoc-phong-media.thaimtapro.workers.dev",
   "images": [
     {
+      "id": "a_detailed_news_style_graphic_cover_a_realistic_d",
+      "path": "/a_detailed_news_style_graphic_cover_a_realistic_d.png",
+      "title": "a detailed news style graphic cover a realistic d",
+      "type": "unreviewed",
+      "credit": "Cần xác minh nguồn và quyền sử dụng trước khi đăng"
+    },
+    {
       "id": "cover_f47_us_air_force",
       "path": "/cover_f47_us_air_force.webp",
       "title": "Minh họa ý tưởng máy bay F-47 của Không quân Mỹ",
