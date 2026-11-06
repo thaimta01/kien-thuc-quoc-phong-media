@@ -1,0 +1,35 @@
+name: Sync media catalog
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/**'
+      - 'scripts/sync_media.py'
+      - '.github/workflows/sync-media.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sync-media-main
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Build media manifest
+        run: python3 scripts/sync_media.py
+      - name: Commit catalog if changed
+        run: |
+          if git diff --quiet -- public/media-manifest.json; then
+            echo "No catalog changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/media-manifest.json
+          git commit -m "chore: refresh media catalog [skip ci]"
+          git push
