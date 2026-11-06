@@ -1,13 +1,44 @@
-
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Kho ảnh Kiến Thức Quốc Phòng</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kho ảnh | Kiến Thức Quốc Phòng</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{margin:0;background:#101923;color:#f2f5f8}header,main{max-width:1100px;margin:auto;padding:24px}
+header{border-bottom:1px solid #344351}h1{font-size:clamp(24px,4vw,36px);margin:10px 0}
+p{color:#b9c7d4}input{background:#1b2a38;border:1px solid #4b5b69;border-radius:8px;padding:12px;color:white;width:100%;box-sizing:border-box}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:24px}
+article{background:#1a2937;border:1px solid #354657;border-radius:12px;overflow:hidden}
+img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#293949}
+.details{padding:15px}h2{font-size:17px;margin:0 0 8px}.note{font-size:13px;color:#aab9c8}
+button,a.action{cursor:pointer;display:inline-block;border:1px solid #74869a;border-radius:7px;padding:9px 12px;background:#253b4e;color:#fff;text-decoration:none;font-size:14px;margin:12px 8px 0 0}
+button:hover,a.action:hover{background:#36556e}#status{margin-top:20px}
+</style>
 </head>
 <body>
-  <h1>Kho ảnh Kiến Thức Quốc Phòng</h1>
-  <p>Kho lưu trữ ảnh phục vụ biên tập nội dung.</p>
-</body>
-</html>
-      
+<header><h1>Kho ảnh Kiến Thức Quốc Phòng</h1><p>Thư viện cover và infographic phục vụ biên tập Fanpage.</p></header>
+<main><label for="search">Tìm ảnh</label><input id="search" type="search" placeholder="Nhập tên hoặc chủ đề ảnh..." aria-label="Tìm ảnh"><p id="status" role="status">Đang tải danh mục...</p><section id="grid" class="grid" aria-label="Danh mục ảnh"></section></main>
+<script>
+let items=[];
+const grid=document.querySelector('#grid'),status=document.querySelector('#status'),search=document.querySelector('#search');
+function render(){
+ const q=search.value.trim().toLocaleLowerCase('vi');
+ const shown=items.filter(x=>(x.title+' '+x.id).toLocaleLowerCase('vi').includes(q));
+ grid.replaceChildren();
+ for(const item of shown){
+  const url=new URL(item.path,location.origin).href;
+  const card=document.createElement('article');
+  const img=document.createElement('img');img.src=url;img.alt=item.title;img.loading='lazy';
+  const info=document.createElement('div');info.className='details';
+  const title=document.createElement('h2');title.textContent=item.title;
+  const note=document.createElement('div');note.className='note';note.textContent=item.credit||'';
+  const open=document.createElement('a');open.className='action';open.href=url;open.target='_blank';open.rel='noopener noreferrer';open.textContent='Mở ảnh';
+  const copy=document.createElement('button');copy.type='button';copy.textContent='Sao chép URL';copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(url);copy.textContent='Đã sao chép';setTimeout(()=>copy.textContent='Sao chép URL',1800)}catch{window.prompt('Sao chép URL:',url)}});
+  info.append(title,note,open,copy);card.append(img,info);grid.append(card);
+ }
+ status.textContent=shown.length+' ảnh';
+}
+search.addEventListener('input',render);
+fetch('/media-manifest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Không tải được danh mục');return r.json()}).then(data=>{items=Array.isArray(data.images)?data.images:[];render()}).catch(()=>{status.textContent='Chưa tải được danh mục. Hãy kiểm tra media-manifest.json.'});
+</script></body></html>
